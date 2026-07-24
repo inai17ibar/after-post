@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AFTER POST — Demo Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/admin.css" />
+  </head>
+  <body>
+    <header class="admin-header">
+      <div><b>AFTER POST</b><span>EVENT INSIGHTS / DEMO</span></div>
+      <a href="/e/afterglow-2026-tokyo-day1/">ファン画面を見る ↗</a>
+    </header>
+    <main class="dashboard">
+      <section class="dashboard-title">
+        <div><p>EVENT REPORT</p><h1 id="eventTitle"></h1><span id="eventMeta"></span></div>
+        <div class="live-chip"><i></i> DEMO + LIVE LOG <b id="liveLogCount">0</b></div>
+      </section>
+
+      <section class="metric-grid" id="metricGrid"></section>
+
+      <section class="dashboard-grid">
+        <article class="panel funnel-panel">
+          <div class="panel-title"><span>FAN JOURNEY</span><h2>体験ファネル</h2></div>
+          <div class="funnel" id="funnel"></div>
+        </article>
+        <article class="panel rate-panel">
+          <div class="panel-title"><span>PERFORMANCE</span><h2>完了・共有率</h2></div>
+          <div class="rate-rings">
+            <div class="rate-ring" id="completionRing"><strong id="completionRate"></strong><span>完了率</span></div>
+            <div class="rate-ring gold" id="shareRing"><strong id="shareRate"></strong><span>共有率</span></div>
+          </div>
+        </article>
+      </section>
+
+      <section class="dashboard-grid">
+        <article class="panel"><div class="panel-title"><span>MOOD</span><h2>人気の気分タグ</h2></div><div class="ranking" id="moodRanking"></div></article>
+        <article class="panel"><div class="panel-title"><span>FAVORITE MOMENT</span><h2>いちばん残ったもの</h2></div><div class="ranking" id="momentRanking"></div></article>
+      </section>
+
+      <section class="dashboard-grid lower-grid">
+        <article class="panel"><div class="panel-title"><span>FAN WORDS</span><h2>よく出た言葉</h2></div><div class="word-cloud" id="wordCloud"></div></article>
+        <article class="panel comments-panel"><div class="panel-title"><span>VOICES</span><h2>代表コメント</h2></div><div id="comments"></div></article>
+      </section>
+
+      <section class="qr-section">
+        <div class="qr-copy">
+          <p>VENUE POSTER</p>
+          <h2>QR掲示カード</h2>
+          <p>会場出口や終演後スクリーンを想定したデモです。QR経由のアクセスは流入元として記録されます。</p>
+          <button id="printQr" type="button">掲示カードを印刷 / PDF保存</button>
+        </div>
+        <div class="qr-poster" id="qrPoster">
+          <div class="qr-poster-head"><b id="qrEventName"></b><span id="qrSubtitle"></span></div>
+          <h3 id="qrLead"></h3>
+          <div class="qr-box"><img id="qrImage" alt="イベントページQRコード" /></div>
+          <p>QRから30秒で、今夜だけのシェアカードを。</p>
+          <strong id="qrHashtags"></strong>
+          <small id="qrUrl"></small>
+        </div>
+      </section>
+    </main>
+    <script src="/event-config.js"></script>
+    <script src="/analytics.js"></script>
+    <script src="/admin.js"></script>
+  </body>
+</html>

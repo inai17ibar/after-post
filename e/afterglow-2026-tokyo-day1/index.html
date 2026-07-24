@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#17142f" />
+    <title>AFTER POST — AFTER GLOW 2026</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700;800&family=Zen+Old+Mincho:wght@600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="ambient ambient-one"></div>
+    <div class="ambient ambient-two"></div>
+    <header class="topbar">
+      <a class="brand" href="/e/afterglow-2026-tokyo-day1/">AFTER POST<span>β</span></a>
+      <button class="ghost-button" id="aboutButton" type="button">使い方</button>
+    </header>
+
+    <main>
+      <section class="hero event-hero">
+        <div class="event-label"><span></span> OFFICIAL EVENT SHARE MAKER</div>
+        <p class="date" id="heroDate"></p>
+        <h1 id="heroTitle"></h1>
+        <p class="lead" id="heroDescription"></p>
+        <div class="campaign-badge">
+          <span>EVENT CAMPAIGN</span>
+          <p id="campaignText"></p>
+        </div>
+        <div class="event-card">
+          <div class="event-art" aria-hidden="true">
+            <div class="orb"></div><div class="line line-a"></div><div class="line line-b"></div>
+            <strong>AFTER<br />GLOW</strong>
+          </div>
+          <div class="event-copy">
+            <span id="posterSubtitle"></span>
+            <h2 id="posterName"></h2>
+            <p id="posterMeta"></p>
+          </div>
+        </div>
+        <a class="primary-button" id="startButton" href="#voice">限定カードをつくる <span>↓</span></a>
+        <p class="microcopy">約30秒・画像保存もX投稿もOK</p>
+      </section>
+
+      <section class="voice-section" id="voice">
+        <div class="section-heading">
+          <span class="step">01</span>
+          <div><p>MAKE YOUR MEMORY</p><h2>今夜の余韻を選んでください。</h2></div>
+        </div>
+        <form id="voiceForm">
+          <fieldset class="flow-step" id="momentStep">
+            <legend><b>1</b><span>今日いちばん残っているもの</span></legend>
+            <div class="choice-row" id="momentChoices"></div>
+          </fieldset>
+
+          <fieldset class="flow-step is-locked" id="moodStep" disabled>
+            <legend><b>2</b><span>今の気持ち</span></legend>
+            <div class="choice-row" id="moodChoices"></div>
+          </fieldset>
+
+          <fieldset class="flow-step is-locked" id="textStep" disabled>
+            <legend><b>3</b><span>ひとこと感想</span></legend>
+            <label class="voice-input-wrap" for="voiceInput">
+              <textarea id="voiceInput" maxlength="280" placeholder="まとまっていなくても大丈夫。今の余韻をそのまま書いてください。"></textarea>
+              <span class="counter"><b id="charCount">0</b> / 280</span>
+            </label>
+          </fieldset>
+
+          <fieldset class="flow-step is-locked" id="finishStep" disabled>
+            <legend><b>4</b><span>カードの仕上がり</span></legend>
+            <div class="post-options">
+              <label><input type="radio" name="tone" value="そのまま" checked /> そのまま</label>
+              <label><input type="radio" name="tone" value="読みやすく" /> 読みやすく</label>
+              <label><input type="radio" name="tone" value="熱量高め" /> 熱量高め</label>
+            </div>
+            <div class="template-grid" id="templateChoices"></div>
+          </fieldset>
+
+          <button class="primary-button submit-button" type="submit" disabled>メモリアルカードをつくる <span>→</span></button>
+          <p class="privacy-inline">入力内容は匿名で、イベント改善のための集計に利用されます。</p>
+        </form>
+      </section>
+
+      <section class="complete-section hidden" id="complete">
+        <div class="section-heading light">
+          <span class="step">02</span>
+          <div><p>YOUR LIMITED MEMORY</p><h2>今夜だけの記念カードができました。</h2></div>
+        </div>
+        <div class="share-card" id="shareCard" data-template="standard-glow" data-tone="raw">
+          <div class="limited-stamp" id="limitedStamp">TOKYO DAY1</div>
+          <div class="share-card-top"><span id="cardEventName"></span><span id="cardSubtitle"></span></div>
+          <div class="card-date" id="cardDate"></div>
+          <blockquote id="cardQuote"></blockquote>
+          <div class="card-details">
+            <div><small>MOOD</small><b id="cardMood"></b></div>
+            <div><small>FAVORITE MOMENT</small><b id="cardMoment"></b></div>
+          </div>
+          <div class="card-footer"><b id="cardHashtag"></b><span id="cardVenue"></span></div>
+        </div>
+
+        <div class="unlocked-notice hidden" id="unlockedNotice">✦ AFTER ENCORE テンプレートが解放されました</div>
+        <p class="share-note" id="shareNote"></p>
+        <div class="share-actions three-actions">
+          <button class="outline-button light-outline" id="saveImage" type="button">画像を保存</button>
+          <button class="outline-button light-outline" id="copyText" type="button">投稿文をコピー</button>
+          <button class="primary-button light-button" id="shareX" type="button">Xで投稿する</button>
+        </div>
+        <div class="thanks hidden" id="thanks"></div>
+        <p class="share-support" id="shareSupport">対応端末では画像と文章を共有し、共有先でXを選べます。</p>
+        <div class="result-template-picker">
+          <span>背景を変える</span>
+          <div class="template-grid compact" id="resultTemplateChoices"></div>
+        </div>
+      </section>
+    </main>
+
+    <dialog id="aboutDialog">
+      <button class="dialog-close" id="closeDialog" aria-label="閉じる">×</button>
+      <p class="eyebrow">HOW TO USE</p>
+      <h2>選んで、ひとこと書いて、<br />限定カードをXへ。</h2>
+      <p>イベント専用URLから、その日・その会場だけの記念カードをつくれます。個人情報は取得しません。</p>
+      <button class="primary-button" id="dialogOkay">わかりました</button>
+    </dialog>
+
+    <script src="/event-config.js"></script>
+    <script src="/analytics.js"></script>
+    <script src="/app.js"></script>
+  </body>
+</html>
