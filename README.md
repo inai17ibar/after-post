@@ -1,21 +1,34 @@
 # AFTER POST — AI Fan Voice Collector
 
-ライブ終演後の感想からシェアカードをすぐに作り、Xへ投稿できるUIプロトタイプです。表向きはシェア体験に集中し、運営限定のフィードバックはカード完成後の任意導線に分離しています。
+ライブ終演後の感想からシェアカードをすぐに作り、Xへ投稿できるツールです。表向きはシェア体験に集中し、運営限定のフィードバックはカード完成後の任意導線に分離しています。
+
+非エンジニアでも `/create/` からイベントページを自分で作成できます(ログイン不要、質問箱型)。詳しい開発ガイドは `AGENTS.md`、設計判断の経緯は `ADR.md` を参照してください。
 
 ## 起動
 
+初回のみ:
+
 ```powershell
-cd C:\src\ai-fan-voice-collector
-python -m http.server 4173
+npm install
+npx wrangler login
+npx wrangler d1 create after-post-db   # 出力された database_id を wrangler.toml に反映
+npm run migrate:local
 ```
 
-ブラウザで次のURLを開いてください。
+起動:
 
-- ファン画面: `http://localhost:4173/e/afterglow-2026-tokyo-day1/`
-- QR流入確認: `http://localhost:4173/e/afterglow-2026-tokyo-day1/?src=qr`
-- 管理デモ: `http://localhost:4173/admin/demo/`
+```powershell
+npm run dev
+```
 
-## このプロトタイプで確認できること
+ブラウザで次のURLを開いてください(ポートは `wrangler pages dev` の出力を参照)。
+
+- ファン画面(既存デモ): `http://localhost:8788/e/afterglow-2026-tokyo-day1/`
+- QR流入確認: `http://localhost:8788/e/afterglow-2026-tokyo-day1/?src=qr`
+- イベントをつくる: `http://localhost:8788/create/`
+- 管理デモ: `http://localhost:8788/admin/demo/`
+
+## 確認できること
 
 - 自由記述から始まるシェアカード作成
 - 投稿文の仕上がりトーン選択
@@ -23,15 +36,13 @@ python -m http.server 4173
 - Xで共有するカードのプレビュー
 - Web Share APIによるPNG画像＋投稿文の共有（非対応環境は画像保存＋X Intent）
 - スマートフォン向けレスポンシブ表示
-- イベント設定による専用ページ
+- 非エンジニアでも使えるイベント作成フォーム(`/create/`)。公開URLと秘密の管理用リンクが発行される
 - 3種類の背景テンプレートと生成後アンロック
-- 匿名localStorageログとデモ集計ダッシュボード
+- D1に永続化された集計ダッシュボード
 - QR掲示カード
 
-本デモはバックエンドを使用しません。操作ログは同一オリジンのlocalStorageに匿名セッション単位で保存され、管理画面では固定デモ値に加算されます。「読みやすく」は外部AIを使わず、ブラウザ内で文章を整えます。
+「読みやすく」は外部AIを使わず、ブラウザ内で文章を整えます。
 
 ## イベントを追加する
 
-1. `event-config.js` の `events` オブジェクトに新しいイベントIDをキーとしたエントリを追加する
-2. `e/{eventId}/index.html` を既存フォルダ(`e/afterglow-2026-tokyo-day1/`)から複製して作成する
-3. 管理ダッシュボードは `admin/demo/?event={eventId}` で該当イベントの集計を確認できる(省略時は `events` の先頭イベント)
+`/create/` のフォームから、コードを触らずにイベントページを作成できます。作成すると公開URL(`/e/{eventId}/`)と管理用リンク(`/admin/{eventId}/{adminToken}/`)が発行されます。**管理用リンクは作成時にしか表示されないため、必ずその場で保存してください。**

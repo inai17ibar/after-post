@@ -1,10 +1,8 @@
-const eventConfig = window.getAfterPostEvent();
 const analytics = window.AfterPostAnalytics;
 
-if (!eventConfig) {
-  document.body.innerHTML = '<main class="not-found"><p>EVENT NOT FOUND</p><h1>このイベントは見つかりませんでした。</h1><a href="/">トップへ戻る</a></main>';
-  throw new Error('Unknown event');
-}
+let eventConfig = null;
+let unlockKey = null;
+let afterEncoreUnlocked = false;
 
 const state = {
   moment: '',
@@ -16,9 +14,6 @@ const state = {
   started: false,
   shareFilePromise: null,
 };
-
-const unlockKey = `afterpost:unlocked:${eventConfig.eventId}:after-encore`;
-let afterEncoreUnlocked = localStorage.getItem(unlockKey) === 'true';
 
 const elements = {
   form: document.querySelector('#voiceForm'),
@@ -432,10 +427,55 @@ document.querySelector('#aboutButton').addEventListener('click', () => aboutDial
 document.querySelector('#closeDialog').addEventListener('click', () => aboutDialog.close());
 document.querySelector('#dialogOkay').addEventListener('click', () => aboutDialog.close());
 
-applyEventConfig();
-renderChoices();
-renderTemplateChoices();
-analytics.trackEvent('page_view', {
-  eventId: eventConfig.eventId,
-  source: new URLSearchParams(window.location.search).get('src') || 'direct',
-});
+const statusOverlay = document.querySelector('#statusOverlay');
+const statusMessage = document.querySelector('#statusMessage');
+const statusRetry = document.querySelector('#statusRetry');
+
+function showStatus(message, { retry = false } = {}) {
+  statusMessage.textContent = message;
+  statusRetry.classList.toggle('hidden', !retry);
+  statusOverlay.classList.remove('hidden');
+}
+
+function hideStatus() {
+  statusOverlay.classList.add('hidden');
+}
+
+async function init() {
+  showStatus('読み込み中…');
+  const eventId = window.resolveAfterPostEventId();
+  if (!eventId) {
+    showStatus('このイベントは見つかりませんでした。');
+    return;
+  }
+
+  let fetchedConfig;
+  try {
+    fetchedConfig = await window.fetchAfterPostEvent(eventId);
+  } catch (error) {
+    showStatus('通信エラーが発生しました。もう一度お試しください。', { retry: true });
+    return;
+  }
+
+  if (!fetchedConfig) {
+    showStatus('このイベントは見つかりませんでした。');
+    return;
+  }
+
+  eventConfig = fetchedConfig;
+  unlockKey = `afterpost:unlocked:${eventConfig.eventId}:after-encore`;
+  afterEncoreUnlocked = localStorage.getItem(unlockKey) === 'true';
+
+  applyEventConfig();
+  renderChoices();
+  renderTemplateChoices();
+  analytics.trackEvent('page_view', {
+    eventId: eventConfig.eventId,
+    source: new URLSearchParams(window.location.search).get('src') || 'direct',
+  });
+  hideStatus();
+}
+
+statusRetry.addEventListener('click', init);
+
+init();

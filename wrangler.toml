@@ -1,0 +1,8 @@
+name = "after-post"
+compatibility_date = "2024-09-23"
+pages_build_output_dir = "."
+
+[[d1_databases]]
+binding = "DB"
+database_name = "after-post-db"
+database_id = "7cf36572-0d5b-4209-83f0-a8862c82c47d"

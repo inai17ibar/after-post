@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#17142f" />
+    <title>イベントをつくる — AFTER POST</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/styles.css" />
+    <link rel="stylesheet" href="/create/create.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="/">AFTER POST<span>β</span></a>
+    </header>
+
+    <main class="create-main">
+      <section class="create-intro">
+        <div class="event-label"><span></span> CREATE YOUR EVENT PAGE</div>
+        <h1>あなたのイベント専用ページをつくる</h1>
+        <p class="lead">ログイン不要。作成するとファン向けの公開リンクと、あなただけの管理用リンクが発行されます。</p>
+      </section>
+
+      <form id="createForm" class="create-form">
+        <fieldset class="create-field">
+          <legend>公開URL</legend>
+          <label for="eventId">イベントID(半角英数字とハイフン、3〜40文字)</label>
+          <input id="eventId" name="eventId" type="text" pattern="[a-z0-9-]{3,40}" placeholder="例: my-live-2026-tokyo" required />
+          <p class="field-hint">公開URL: <span id="eventIdPreview">/e/{イベントID}/</span></p>
+          <p class="field-error hidden" id="eventIdError"></p>
+        </fieldset>
+
+        <fieldset class="create-field">
+          <legend>基本情報</legend>
+          <label for="name">イベント名</label>
+          <input id="name" name="name" type="text" maxlength="80" required />
+          <label for="subtitle">サブタイトル</label>
+          <input id="subtitle" name="subtitle" type="text" maxlength="80" />
+          <label for="venue">会場</label>
+          <input id="venue" name="venue" type="text" maxlength="80" />
+          <label for="date">日付</label>
+          <input id="date" name="date" type="text" maxlength="40" placeholder="例: 2026.07.12" />
+        </fieldset>
+
+        <fieldset class="create-field">
+          <legend>コピー・キャンペーン</legend>
+          <label for="leadCopy">リード文</label>
+          <input id="leadCopy" name="leadCopy" type="text" maxlength="400" />
+          <label for="description">説明文</label>
+          <textarea id="description" name="description" maxlength="400" rows="3"></textarea>
+          <label for="campaignText">キャンペーン文言(任意)</label>
+          <textarea id="campaignText" name="campaignText" maxlength="400" rows="2"></textarea>
+          <label for="hashtags">ハッシュタグ(カンマ区切り、最大5個)</label>
+          <input id="hashtags" name="hashtags" type="text" placeholder="#AFTERPOST, #今日の余韻" />
+        </fieldset>
+
+        <fieldset class="create-field">
+          <legend>ファンの選択肢</legend>
+          <label for="moments">「今日いちばん残ったもの」の選択肢(カンマ区切り、最大12個)</label>
+          <input id="moments" name="moments" type="text" placeholder="曲, MC, 演出, 衣装, 推し" />
+          <label for="moodTags">「今の気持ち」の選択肢(カンマ区切り、最大12個)</label>
+          <input id="moodTags" name="moodTags" type="text" placeholder="最高, 泣いた, まだ浸ってる" />
+        </fieldset>
+
+        <fieldset class="create-field">
+          <legend>カードテンプレート</legend>
+          <p class="field-hint">使用するデザインを選んでください(複数選択可)。</p>
+          <div class="template-checkboxes" id="templateCheckboxes"></div>
+        </fieldset>
+
+        <p class="field-error hidden" id="formError"></p>
+        <button class="primary-button" type="submit" id="submitButton">イベントページをつくる</button>
+      </form>
+
+      <section class="create-result hidden" id="createResult">
+        <h2>イベントページができました</h2>
+        <div class="result-block">
+          <p class="result-label">公開URL(ファンに共有してください)</p>
+          <div class="result-row">
+            <code id="publicUrlText"></code>
+            <button type="button" class="outline-button" data-copy-target="publicUrlText">コピー</button>
+          </div>
+        </div>
+        <div class="result-block warning">
+          <p class="result-label">管理用リンク(あなただけの秘密のリンクです)</p>
+          <div class="result-row">
+            <code id="adminUrlText"></code>
+            <button type="button" class="outline-button" data-copy-target="adminUrlText">コピー</button>
+          </div>
+          <p class="warning-banner">⚠ この管理用リンクは二度と表示されません。必ずメモや自分宛てのメッセージなどに保存してください。紛失すると集計を見る手段がなくなります。</p>
+        </div>
+      </section>
+    </main>
+
+    <script src="/create/create.js"></script>
+  </body>
+</html>

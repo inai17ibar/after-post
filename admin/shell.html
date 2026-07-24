@@ -3,21 +3,28 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AFTER POST — Demo Dashboard</title>
+    <title>AFTER POST — Event Insights</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="/admin.css" />
   </head>
   <body>
+    <div class="status-overlay" id="statusOverlay">
+      <p id="statusMessage">読み込み中…</p>
+      <button id="statusRetry" class="hidden" type="button">再読み込み</button>
+    </div>
     <header class="admin-header">
-      <div><b>AFTER POST</b><span>EVENT INSIGHTS / DEMO</span></div>
-      <a href="/e/afterglow-2026-tokyo-day1/">ファン画面を見る ↗</a>
+      <div><b>AFTER POST</b><span>EVENT INSIGHTS</span></div>
+      <div class="admin-header-links">
+        <a href="/create/">新しいイベントをつくる ↗</a>
+        <a id="fanLink" href="/">ファン画面を見る ↗</a>
+      </div>
     </header>
     <main class="dashboard">
       <section class="dashboard-title">
         <div><p>EVENT REPORT</p><h1 id="eventTitle"></h1><span id="eventMeta"></span></div>
-        <div class="live-chip"><i></i> DEMO + LIVE LOG <b id="liveLogCount">0</b></div>
+        <div class="live-chip"><i></i> LIVE LOG <b id="liveLogCount">0</b></div>
       </section>
 
       <section class="metric-grid" id="metricGrid"></section>

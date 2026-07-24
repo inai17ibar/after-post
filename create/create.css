@@ -1,0 +1,41 @@
+.create-main { padding: 60px 7vw 100px; max-width: 720px; }
+.create-intro h1 { font-size: clamp(26px, 4vw, 38px); margin: 16px 0 10px; }
+.create-intro .lead { color: var(--muted); font-size: 13px; line-height: 1.8; }
+
+.create-form { margin-top: 40px; display: flex; flex-direction: column; gap: 28px; }
+.create-field { border: 1px solid var(--line); padding: 22px; border-radius: 4px; }
+.create-field legend { padding: 0 8px; font-size: 11px; letter-spacing: .1em; color: var(--orange); font-weight: 700; }
+.create-field label { display: block; margin: 14px 0 6px; font-size: 12px; color: var(--muted); }
+.create-field label:first-of-type { margin-top: 0; }
+.create-field input[type="text"],
+.create-field textarea {
+  width: 100%; border: 1px solid var(--line); background: none; color: var(--ink);
+  padding: 10px 12px; font: inherit; font-size: 14px; border-radius: 2px;
+}
+.create-field textarea { resize: vertical; }
+
+.field-hint { font-size: 11px; color: var(--muted); margin: 6px 0 0; }
+.field-error { font-size: 12px; color: #c1432e; margin: 8px 0 0; }
+.field-error.hidden { display: none; }
+
+.template-checkboxes { display: flex; flex-wrap: wrap; gap: 10px; }
+.template-checkboxes label {
+  display: flex; align-items: center; gap: 8px; border: 1px solid var(--line);
+  padding: 10px 14px; margin: 0; font-size: 13px; cursor: pointer;
+}
+
+.create-result { margin-top: 40px; border: 1px solid var(--line); padding: 28px; }
+.create-result h2 { font-size: 20px; margin: 0 0 20px; }
+.create-result.hidden { display: none; }
+.result-block { margin-bottom: 20px; }
+.result-block.warning { border-top: 1px solid var(--line); padding-top: 20px; }
+.result-label { font-size: 11px; color: var(--muted); margin-bottom: 8px; }
+.result-row { display: flex; gap: 10px; align-items: center; }
+.result-row code {
+  flex: 1; background: rgba(0,0,0,.04); padding: 10px 12px; font-size: 13px;
+  overflow-x: auto; white-space: nowrap; border-radius: 2px;
+}
+.warning-banner {
+  margin-top: 14px; padding: 12px 14px; background: #fdeee9; color: #7a2c1a;
+  font-size: 12px; line-height: 1.7; border-radius: 2px;
+}

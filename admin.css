@@ -1,11 +1,17 @@
 :root { --ink:#17141f; --paper:#f3f0ea; --purple:#69538f; --orange:#ef7049; --gold:#d2a24f; --line:rgba(23,20,31,.13); }
 * { box-sizing:border-box; }
 body { margin:0; background:var(--paper); color:var(--ink); font-family:"Noto Sans JP",sans-serif; }
+.status-overlay { position:fixed; inset:0; z-index:999; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:16px; background:var(--paper); color:var(--ink); text-align:center; padding:24px; }
+.status-overlay.hidden { display:none; }
+.status-overlay button { border:1px solid var(--ink); background:none; color:var(--ink); padding:10px 20px; cursor:pointer; font-size:12px; }
+.status-overlay button.hidden { display:none; }
+.status-overlay a { color:var(--ink); }
 .admin-header { height:72px; display:flex; justify-content:space-between; align-items:center; padding:0 5vw; border-bottom:1px solid var(--line); }
 .admin-header div { display:flex; align-items:center; gap:14px; }
 .admin-header b { letter-spacing:.09em; }
 .admin-header span { color:#8b858e; font-size:9px; letter-spacing:.16em; }
 .admin-header a { color:var(--ink); font-size:11px; text-decoration:none; border-bottom:1px solid; }
+.admin-header-links { display:flex; align-items:center; gap:20px; }
 .dashboard { width:min(1180px,90vw); margin:auto; padding:65px 0 100px; }
 .dashboard-title { display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:35px; }
 .dashboard-title p,.panel-title span,.qr-copy>p:first-child { color:var(--orange); font-size:9px; font-weight:800; letter-spacing:.17em; }

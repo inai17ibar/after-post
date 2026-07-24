@@ -1,0 +1,31 @@
+{
+  "name": "after-post",
+  "version": "1.0.0",
+  "description": "ライブ終演後の感想からシェアカードをすぐに作り、Xへ投稿できるUIプロトタイプです。表向きはシェア体験に集中し、運営限定のフィードバックはカード完成後の任意導線に分離しています。",
+  "main": "admin.js",
+  "scripts": {
+    "dev": "wrangler pages dev .",
+    "typecheck": "tsc --noEmit",
+    "migrate:local": "wrangler d1 migrations apply after-post-db --local",
+    "migrate:remote": "wrangler d1 migrations apply after-post-db --remote",
+    "deploy": "wrangler pages deploy .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com-inai17ibar:inai17ibar/after-post.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "hono": "^4.12.32",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^5.20260724.1",
+    "typescript": "^7.0.2",
+    "wrangler": "^4.114.0"
+  }
+}
