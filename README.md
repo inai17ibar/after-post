@@ -29,3 +29,9 @@ python -m http.server 4173
 - QR掲示カード
 
 本デモはバックエンドを使用しません。操作ログは同一オリジンのlocalStorageに匿名セッション単位で保存され、管理画面では固定デモ値に加算されます。「読みやすく」は外部AIを使わず、ブラウザ内で文章を整えます。
+
+## イベントを追加する
+
+1. `event-config.js` の `events` オブジェクトに新しいイベントIDをキーとしたエントリを追加する
+2. `e/{eventId}/index.html` を既存フォルダ(`e/afterglow-2026-tokyo-day1/`)から複製して作成する
+3. 管理ダッシュボードは `admin/demo/?event={eventId}` で該当イベントの集計を確認できる(省略時は `events` の先頭イベント)

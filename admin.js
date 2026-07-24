@@ -1,4 +1,4 @@
-const eventConfig = window.AFTER_POST_DEMO_EVENT;
+const eventConfig = window.getAfterPostEvent();
 const stats = window.AfterPostAnalytics.getDashboardStats(eventConfig.eventId, { includeDemoSeed: true });
 
 document.querySelector('#eventTitle').textContent = `${eventConfig.eventName} ${eventConfig.eventSubTitle}`;
@@ -73,7 +73,11 @@ stats.words.forEach(([word, count], index) => {
 const comments = document.querySelector('#comments');
 stats.comments.slice(0, 3).forEach((comment, index) => {
   const blockquote = document.createElement('blockquote');
-  blockquote.innerHTML = `<span>0${index + 1}</span><p>「${comment}」</p>`;
+  const numberSpan = document.createElement('span');
+  numberSpan.textContent = `0${index + 1}`;
+  const textParagraph = document.createElement('p');
+  textParagraph.textContent = `「${comment}」`;
+  blockquote.append(numberSpan, textParagraph);
   comments.appendChild(blockquote);
 });
 
