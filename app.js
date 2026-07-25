@@ -11,6 +11,7 @@
    * @property {string} venue
    * @property {string} hashtag
    * @property {string} hashtags
+   * @property {string} eventUrl
    * @property {string} comment
    * @property {string} mood
    * @property {string} moment
@@ -252,6 +253,7 @@
       venue: eventConfig.venue,
       hashtag: eventConfig.hashtags[0],
       hashtags: eventConfig.hashtags.join(' '),
+      eventUrl: `${window.location.origin}/e/${eventConfig.eventId}/?src=card`,
       comment,
       mood: state.mood,
       moment: state.moment,
@@ -266,7 +268,7 @@
    * @returns {string}
    */
   function buildShareText(model) {
-    return `${model.eventName} ${model.subtitle}、まだ余韻が抜けない。\n\n「${model.comment}」\n\n${model.hashtags}`;
+    return `${model.eventName} ${model.subtitle}、まだ余韻が抜けない。\n\n「${model.comment}」\n\n${model.hashtags}\n${model.eventUrl}`;
   }
 
   /** @param {CardModel} model */
@@ -453,6 +455,17 @@
     context.textAlign = 'right';
     context.font = '500 16px "Noto Sans JP", sans-serif';
     context.fillText(`${model.eventName} · ${model.subtitle}`, 1136, 625);
+
+    // 最下段: サービス名とイベントURL(ハッシュタグ行 y=625 の下に1行追加)
+    context.textAlign = 'left';
+    context.fillStyle = '#fff';
+    context.font = '800 13px "Noto Sans JP", sans-serif';
+    context.fillText('AFTER POST', 64, 657);
+    const brandWidth = context.measureText('AFTER POST').width;
+    context.fillStyle = 'rgba(255,255,255,.82)';
+    context.font = '500 13px "Noto Sans JP", sans-serif';
+    context.fillText(model.eventUrl, 64 + brandWidth + 14, 657);
+
     const blob = await /** @type {Promise<Blob>} */ (new Promise((resolve, reject) => {
       canvas.toBlob((result) => result ? resolve(result) : reject(new Error('PNG generation failed')), 'image/png');
     }));
