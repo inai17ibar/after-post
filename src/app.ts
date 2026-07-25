@@ -3,8 +3,12 @@ import { createEventSchema, logEventSchema } from './lib/validation';
 import { generateAdminToken } from './lib/token';
 import { TEMPLATE_CATALOG } from './lib/templates';
 import { getDashboardStats } from './lib/analytics';
+import { moderateComment } from './lib/moderation';
 
 type Bindings = { DB: D1Database };
+
+// 同一 session_id × 同一 event_id で直近1時間に受け付けるログ件数の上限
+const MAX_LOGS_PER_SESSION_PER_HOUR = 60;
 
 interface EventRow {
   id: string;
@@ -116,6 +120,21 @@ app.post('/events/:eventId/logs', async (c) => {
   if (!parsed.success) return c.json({ error: 'invalid_input' }, 400);
   const log = parsed.data;
 
+  const recent = await c.env.DB.prepare(
+    `SELECT COUNT(*) AS count FROM event_logs
+     WHERE event_id = ? AND session_id = ? AND created_at >= datetime('now', '-1 hour')`,
+  )
+    .bind(eventId, log.sessionId)
+    .first<{ count: number }>();
+  if ((recent?.count ?? 0) >= MAX_LOGS_PER_SESSION_PER_HOUR) {
+    return c.json({ error: 'rate_limited' }, 429);
+  }
+
+  let comment: string | null = null;
+  if (log.comment) {
+    comment = moderateComment(log.comment).comment.slice(0, 280) || null;
+  }
+
   await c.env.DB.prepare(
     `INSERT INTO event_logs (event_id, session_id, action, source, template_id, mood_tag, moment_type, comment)
      VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
@@ -128,7 +147,7 @@ app.post('/events/:eventId/logs', async (c) => {
       log.templateId ?? null,
       log.moodTag ?? null,
       log.momentType ?? null,
-      log.comment ? log.comment.slice(0, 280) : null,
+      comment,
     )
     .run();
 
