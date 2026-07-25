@@ -1,4 +1,10 @@
 (function () {
+  /**
+   * URLパス`/e/{eventId}/`またはクエリ`?event=`からイベントIDを解決する。
+   * @param {string} [pathname]
+   * @param {string} [search]
+   * @returns {string | null}
+   */
   function resolveEventId(pathname = window.location.pathname, search = window.location.search) {
     const pathMatch = pathname.match(/\/e\/([^/]+)/);
     if (pathMatch) return decodeURIComponent(pathMatch[1]);
@@ -7,12 +13,21 @@
     return null;
   }
 
+  /**
+   * 管理URL`/admin/{eventId}/{adminToken}/`からパラメータを取り出す。
+   * @param {string} [pathname]
+   * @returns {{ eventId: string, adminToken: string } | null}
+   */
   function resolveAdminParams(pathname = window.location.pathname) {
     const match = pathname.match(/\/admin\/([^/]+)\/([^/]+)/);
     if (!match) return null;
     return { eventId: decodeURIComponent(match[1]), adminToken: decodeURIComponent(match[2]) };
   }
 
+  /**
+   * @param {string} eventId
+   * @returns {Promise<AfterPostEventConfig | null>}
+   */
   async function fetchEvent(eventId) {
     const response = await fetch(`/api/events/${encodeURIComponent(eventId)}`);
     if (response.status === 404) return null;
@@ -20,6 +35,11 @@
     return response.json();
   }
 
+  /**
+   * @param {string} eventId
+   * @param {string} adminToken
+   * @returns {Promise<AfterPostDashboardResult>}
+   */
   async function fetchDashboard(eventId, adminToken) {
     const response = await fetch(`/api/admin/${encodeURIComponent(eventId)}/dashboard`, {
       headers: { Authorization: `Bearer ${adminToken}` },

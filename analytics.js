@@ -1,15 +1,25 @@
 (function () {
   const SESSION_KEY = 'afterpost:session:v1';
 
+  /**
+   * @param {string} key
+   * @param {string} fallback
+   * @returns {string}
+   */
   function safeRead(key, fallback) {
     try {
-      const parsed = JSON.parse(localStorage.getItem(key));
+      const parsed = JSON.parse(localStorage.getItem(key) ?? 'null');
       return parsed ?? fallback;
     } catch (_) {
       return fallback;
     }
   }
 
+  /**
+   * @param {string} key
+   * @param {string} value
+   * @returns {boolean}
+   */
   function safeWrite(key, value) {
     try {
       localStorage.setItem(key, JSON.stringify(value));
@@ -19,6 +29,7 @@
     }
   }
 
+  /** @returns {string} */
   function getSessionId() {
     let sessionId = safeRead(SESSION_KEY, '');
     if (!sessionId) {
@@ -30,6 +41,11 @@
     return sessionId;
   }
 
+  /**
+   * 分析ログをAPIへ送る(fire-and-forget)。失敗しても画面には影響させない。
+   * @param {AfterPostLogAction} action
+   * @param {AfterPostAnalyticsPayload} [payload]
+   */
   function trackEvent(action, payload = {}) {
     const eventId = payload.eventId || window.resolveAfterPostEventId?.();
     if (!eventId) return;

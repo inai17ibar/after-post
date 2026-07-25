@@ -20,7 +20,9 @@ export const onRequest: PagesFunction<Env> = async (context) => {
   }
 
   if (parts.length >= 2 && parts[0] && parts[1]) {
-    const shellUrl = new URL('/admin/shell.html', context.request.url);
+    // 拡張子付き(/admin/shell.html)でfetchするとアセットサーバーがpretty URLへの
+    // 308リダイレクトを返し、それがそのままブラウザに届いてしまうため拡張子なしで取得する
+    const shellUrl = new URL('/admin/shell', context.request.url);
     const response = await context.env.ASSETS.fetch(new Request(shellUrl, context.request));
     return new Response(response.body, response);
   }

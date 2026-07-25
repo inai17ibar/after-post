@@ -34,7 +34,7 @@ npm run dev   # wrangler pages dev . 。python -m http.server では動かない
 - イベント作成: `http://localhost:8788/create/`
 - 管理デモ: `http://localhost:8788/admin/demo/`（実際の管理URLへ302リダイレクトされる）
 
-自動テストは存在しませんが、`npm run typecheck`（`tsc --noEmit`）でバックエンドの型チェックはできます。**変更後は必ず `npm run dev` を起動し、上記URLをブラウザで実際に触って確認してください。** 型チェックが通ることと、機能が意図通り動くことは別物です。
+自動テストは存在しませんが、`npm run typecheck` でバックエンド（TypeScript）とフロントエンド（JSDoc型注釈付きJS、`tsconfig.frontend.json`でcheckJs検査。[[ADR-0007]]参照）の両方の型チェックができます。**変更後は必ず `npm run dev` を起動し、上記URLをブラウザで実際に触って確認してください。** 型チェックが通ることと、機能が意図通り動くことは別物です。
 
 **Windows特有の注意:** `wrangler pages dev` にCLIの `--d1` フラグを付けると、`wrangler.toml` 側のD1バインディングと二重定義になりworkerdバイナリがネイティブクラッシュ（`std::terminate() called with no exception`）することが確認されている。D1バインディングは`wrangler.toml`の`[[d1_databases]]`だけで十分で、CLIフラグは不要。また使用ポートが他プロセス（VS Codeなど）と衝突していると同様の紛らわしいクラッシュ表示になることがあるため、`Get-NetTCPConnection -State Listen`で先にポートの空き状況を確認するとよい。
 
@@ -58,7 +58,9 @@ functions/admin/[[path]].ts      /admin/demoのリダイレクト + 任意イベ
 src/app.ts                Honoルートハンドラ本体(POST /events, GET /events/:id, POST /events/:id/logs, GET /admin/:id/dashboard)
 src/lib/                  token.ts(管理トークン生成), templates.ts(固定テンプレートカタログ), validation.ts(zodスキーマ), analytics.ts(サーバー側集計)
 migrations/               D1マイグレーション(0001_init.sql, 0002_seed_demo.sql)
+types/frontend.d.ts       フロントJS共有のグローバル型定義(APIレスポンス形・window拡張。src/と手動同期)
 wrangler.toml, tsconfig.json, package.json   Cloudflare Workers/D1の設定
+tsconfig.frontend.json    フロントJSの型検査(checkJs)用設定。ビルドはしない(ADR-0007)
 ```
 
 ## アーキテクチャの要点

@@ -1,0 +1,26 @@
+{
+  // フロントエンド(素のJS)用の型チェック設定。ビルド(トランスパイル)はせず、
+  // JSDoc注釈 + checkJs で tsc --noEmit の検査だけを行う(ADR-0007)。
+  // バックエンド用の tsconfig.json とはlib(DOM vs workers-types)が衝突するため分離している。
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ES2022",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "allowJs": true,
+    "checkJs": true,
+    "strict": true,
+    "noEmit": true,
+    "skipLibCheck": true,
+    "types": [],
+    // 各ファイルは<script>で読み込む非モジュール(IIFE)なので、import/exportの有無だけで判定する
+    "moduleDetection": "legacy"
+  },
+  "include": [
+    "types/frontend.d.ts",
+    "event-config.js",
+    "analytics.js",
+    "app.js",
+    "admin.js",
+    "create/create.js"
+  ]
+}
