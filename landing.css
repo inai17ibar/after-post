@@ -119,6 +119,12 @@ h1 {
   .feature-grid { grid-template-columns: 1fr; }
 }
 
+/* 中間幅では見出し(max-width 640px)と絶対配置のポスターが重なるため、本文の下に回す */
+@media (max-width: 1200px) {
+  .hero { min-height: auto; }
+  .poster-card { position: relative; width: min(56vw, 400px); right: auto; top: auto; margin: 54px auto 0; }
+}
+
 @media (max-width: 760px) {
   .topbar { padding: 0 22px; }
   .hero { padding: 62px 24px 64px; min-height: auto; }
