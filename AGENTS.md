@@ -41,7 +41,7 @@ npm run dev   # wrangler pages dev . 。python -m http.server では動かない
 ## ディレクトリ構成
 
 ```
-index.html               トップ。既定イベントへ即リダイレクトするだけ(変更なし)
+index.html               トップ。サービス紹介ランディング(主CTA: /create/、副導線: デモイベント)。スタイルは landing.css
 event-config.js          URL(パス/クエリ)からのイベントID解決 + /api へのfetchヘルパー
 analytics.js             匿名セッションID管理 + ログ送信(fire-and-forget)のfetchラッパー
 app.js                   ファン向けカード作成画面のロジック(async init、e/配下から読み込まれる)

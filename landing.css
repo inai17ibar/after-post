@@ -1,0 +1,140 @@
+/* landing.css — サービスランディング(/)専用スタイル。
+   既存画面(styles.css)には読み込まない・変更しないこと。
+   トーンは既存画面のダークセクション(complete-section / event-card)を踏襲。 */
+
+:root {
+  --bg: #14111c;
+  --surface: #221a31;
+  --text: #f4f0f6;
+  --muted: #a49daf;
+  --line: rgba(244, 240, 246, 0.14);
+  --orange: #f2663c;
+  --yellow: #f1d35b;
+  --purple: #7b61a8;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  color: var(--text);
+  background: var(--bg);
+  font-family: "Noto Sans JP", sans-serif;
+  overflow-x: hidden;
+}
+a { -webkit-tap-highlight-color: transparent; }
+
+.ambient { position: fixed; border-radius: 50%; filter: blur(90px); opacity: .22; pointer-events: none; z-index: -1; }
+.ambient-one { width: 460px; height: 460px; background: #ee855d; top: -170px; right: -190px; }
+.ambient-two { width: 340px; height: 340px; background: #7b61a8; top: 480px; left: -230px; }
+
+.topbar {
+  height: 74px; padding: 0 6vw; display: flex; align-items: center; justify-content: space-between;
+  border-bottom: 1px solid var(--line); position: relative; z-index: 2;
+}
+.brand { color: var(--text); text-decoration: none; font-weight: 800; letter-spacing: .08em; }
+.brand span { font-size: 9px; border: 1px solid; border-radius: 8px; padding: 1px 4px; margin-left: 6px; vertical-align: top; }
+.ghost-link { color: var(--muted); text-decoration: none; font-size: 12px; border-bottom: 1px solid var(--muted); padding: 4px 0; }
+.ghost-link:hover { color: var(--text); border-color: var(--text); }
+
+main { width: min(100%, 1240px); margin: auto; }
+
+/* Hero */
+.hero { min-height: calc(100vh - 74px); padding: 96px 7vw 80px; position: relative; }
+.event-label { color: var(--orange); letter-spacing: .16em; font-weight: 700; font-size: 11px; display: flex; align-items: center; gap: 10px; }
+.event-label span { width: 28px; height: 1px; background: var(--orange); }
+h1 {
+  font-family: "Zen Old Mincho", serif; font-size: clamp(40px, 6.4vw, 76px);
+  line-height: 1.18; letter-spacing: -.04em; margin: 26px 0 0; font-weight: 700; max-width: 640px;
+}
+.lead { color: var(--muted); width: min(100%, 460px); line-height: 2; margin: 30px 0 38px; font-size: 14px; }
+
+.cta-row { display: flex; align-items: center; flex-wrap: wrap; gap: 14px; }
+.primary-button {
+  display: inline-flex; align-items: center; justify-content: space-between; gap: 42px; min-width: 265px;
+  padding: 17px 20px; background: white; color: #17141f; text-decoration: none; border: 1px solid white;
+  font-size: 13px; font-weight: 600; cursor: pointer; transition: transform .2s, background .2s;
+}
+.primary-button:hover { transform: translateY(-2px); background: #eee9f0; }
+.secondary-button {
+  display: inline-flex; align-items: center; justify-content: center;
+  padding: 17px 26px; border: 1px solid #6d6773; color: var(--text); text-decoration: none;
+  font-size: 13px; font-weight: 600; transition: transform .2s, border-color .2s;
+}
+.secondary-button:hover { transform: translateY(-2px); border-color: var(--text); }
+.microcopy { color: var(--muted); font-size: 10px; margin: 14px 0 0 2px; }
+.inline-link { color: var(--text); }
+
+/* CSSだけで描くポスター(既存 event-card の意匠を踏襲) */
+.poster-card {
+  position: absolute; right: 7vw; top: 100px; width: min(34vw, 400px); aspect-ratio: 4/5;
+  background: var(--surface); overflow: hidden; transform: rotate(2.8deg);
+  box-shadow: 0 28px 70px rgba(0, 0, 0, .45);
+}
+.poster-art { position: absolute; inset: 0; overflow: hidden; }
+.poster-art::after { content: ""; position: absolute; inset: 0; background: linear-gradient(145deg, transparent 35%, rgba(247, 102, 55, .7)); mix-blend-mode: screen; }
+.poster-art strong { position: absolute; z-index: 2; top: 15%; left: 10%; font-size: clamp(44px, 5.6vw, 76px); line-height: .8; letter-spacing: -.08em; }
+.orb { position: absolute; width: 90%; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle at 38% 35%, #ffd676, #e34d38 40%, #57315e 72%); right: -32%; bottom: -9%; }
+.line { position: absolute; height: 1px; background: rgba(255, 255, 255, .55); width: 140%; transform-origin: left; z-index: 3; }
+.line-a { transform: rotate(-36deg); left: -10%; top: 68%; }
+.line-b { transform: rotate(-36deg); left: 8%; top: 78%; }
+.poster-copy { position: absolute; z-index: 4; bottom: 7%; left: 8%; }
+.poster-copy span { font-size: 9px; letter-spacing: .22em; }
+.poster-copy h2 { margin: 7px 0 4px; font-size: 18px; font-weight: 600; }
+.poster-copy p { margin: 0; font-size: 10px; opacity: .7; }
+
+/* Features */
+.features { padding: 100px 7vw 110px; border-top: 1px solid var(--line); }
+.section-heading { margin-bottom: 52px; }
+.section-heading p { font-size: 10px; letter-spacing: .19em; color: var(--orange); margin: 0 0 10px; font-weight: 700; }
+.section-heading h2 { font-family: "Zen Old Mincho", serif; font-size: clamp(26px, 4vw, 42px); margin: 0; letter-spacing: -.02em; }
+.feature-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.feature { border: 1px solid var(--line); padding: 30px 26px 34px; background: rgba(255, 255, 255, .025); transition: border-color .2s, transform .2s; }
+.feature:hover { border-color: rgba(242, 102, 60, .55); transform: translateY(-3px); }
+.feature-num { color: var(--orange); font-size: 11px; border-top: 1px solid var(--orange); padding-top: 8px; width: 34px; display: block; letter-spacing: .1em; }
+.feature h3 { margin: 22px 0 12px; font-size: 17px; font-weight: 700; line-height: 1.5; }
+.feature p { margin: 0; color: var(--muted); font-size: 12px; line-height: 2; }
+
+/* Closing CTA */
+.closing {
+  border-top: 1px solid var(--line); padding: 100px 7vw 110px; text-align: center;
+  background: linear-gradient(180deg, transparent, rgba(123, 97, 168, .12));
+}
+.closing-eyebrow { color: var(--yellow); font-size: 10px; letter-spacing: .22em; font-weight: 700; }
+.closing h2 { font-family: "Zen Old Mincho", serif; font-size: clamp(26px, 4vw, 42px); margin: 18px 0 14px; letter-spacing: -.02em; }
+.closing > p { color: var(--muted); font-size: 13px; line-height: 2; margin: 0 0 34px; }
+.closing .primary-button { min-width: 0; gap: 24px; }
+.closing .microcopy { margin: 18px 0 0; }
+
+.footer {
+  border-top: 1px solid var(--line); padding: 26px 6vw; display: flex; align-items: center;
+  justify-content: space-between; flex-wrap: wrap; gap: 12px;
+}
+.footer span { font-size: 11px; font-weight: 800; letter-spacing: .08em; color: var(--muted); }
+.footer nav { display: flex; gap: 22px; }
+.footer a { color: var(--muted); text-decoration: none; font-size: 11px; }
+.footer a:hover { color: var(--text); }
+
+@media (max-width: 900px) {
+  .feature-grid { grid-template-columns: 1fr; }
+}
+
+/* 中間幅では見出し(max-width 640px)と絶対配置のポスターが重なるため、本文の下に回す */
+@media (max-width: 1200px) {
+  .hero { min-height: auto; }
+  .poster-card { position: relative; width: min(56vw, 400px); right: auto; top: auto; margin: 54px auto 0; }
+}
+
+@media (max-width: 760px) {
+  .topbar { padding: 0 22px; }
+  .hero { padding: 62px 24px 64px; min-height: auto; }
+  h1 { font-size: clamp(34px, 9.4vw, 44px); }
+  .lead { margin-top: 24px; }
+  .poster-card { position: relative; width: 86%; right: auto; top: auto; margin: 48px auto 0; }
+  .poster-art strong { font-size: 58px; }
+  .cta-row { flex-direction: column; align-items: stretch; }
+  .primary-button { min-width: 0; }
+  .microcopy { text-align: center; margin-left: 0; }
+  .features, .closing { padding: 74px 24px 80px; }
+  .footer { justify-content: center; }
+}
