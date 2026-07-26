@@ -2,6 +2,15 @@
 // ロジックの意図は元のクライアント版と同じ: ファネル件数・気分/モーメントの集計・
 // コメントからの頻出語抽出。デモ用の下駄(demoSeed)は is_demo イベントにのみ加算する。
 
+// page_view のsource別ユニークセッション数。direct はsource未記録(NULL)分を含み、
+// other は qr/card/direct 以外の値をまとめたもの。
+export interface SourceBreakdown {
+  qr: number;
+  card: number;
+  direct: number;
+  other: number;
+}
+
 export interface DashboardStats {
   pageViews: number;
   qrViews: number;
@@ -11,6 +20,7 @@ export interface DashboardStats {
   shared: number;
   completionRate: number;
   shareRate: number;
+  sourceBreakdown: SourceBreakdown;
   moods: [string, number][];
   moments: [string, number][];
   words: [string, number][];
@@ -25,6 +35,7 @@ interface DemoSeed {
   generated: number;
   saved: number;
   shared: number;
+  sources: SourceBreakdown;
   moods: Record<string, number>;
   moments: Record<string, number>;
   comments: string[];
@@ -37,6 +48,8 @@ const DEMO_SEED: DemoSeed = {
   generated: 52,
   saved: 31,
   shared: 18,
+  // pageViews=124 / qrViews=124 (全アクセスがQR経由という下駄)と整合させる
+  sources: { qr: 124, card: 0, direct: 0, other: 0 },
   moods: { '胸がいっぱい': 18, '最高': 14, '泣いた': 9, 'まだ浸ってる': 7, '推しが尊い': 4 },
   moments: { MC: 16, アンコール: 13, 推し: 10, 曲: 8, 演出: 5 },
   comments: [
@@ -53,6 +66,7 @@ const EMPTY_SEED: DemoSeed = {
   generated: 0,
   saved: 0,
   shared: 0,
+  sources: { qr: 0, card: 0, direct: 0, other: 0 },
   moods: {},
   moments: {},
   comments: [],
@@ -109,14 +123,23 @@ async function countDistinctSessions(
 export async function getDashboardStats(db: D1Database, eventId: string, isDemo: boolean): Promise<DashboardStats> {
   const seed = isDemo ? DEMO_SEED : EMPTY_SEED;
 
-  const [pageViews, qrViews, starts, generated, saved, shared] = await Promise.all([
-    countDistinctSessions(db, eventId, 'page_view'),
-    countDistinctSessions(db, eventId, 'page_view', 'AND source = ?', ['qr']),
-    countDistinctSessions(db, eventId, 'start_clicked'),
-    countDistinctSessions(db, eventId, 'card_generated'),
-    countDistinctSessions(db, eventId, 'image_saved'),
-    countDistinctSessions(db, eventId, 'share_clicked'),
-  ]);
+  const [pageViews, qrViews, cardViews, directViews, otherViews, starts, generated, saved, shared] =
+    await Promise.all([
+      countDistinctSessions(db, eventId, 'page_view'),
+      countDistinctSessions(db, eventId, 'page_view', 'AND source = ?', ['qr']),
+      countDistinctSessions(db, eventId, 'page_view', 'AND source = ?', ['card']),
+      // フロントは未指定時に'direct'を送るが、source省略のログもdirect扱いに含める
+      countDistinctSessions(db, eventId, 'page_view', 'AND (source = ? OR source IS NULL)', ['direct']),
+      countDistinctSessions(db, eventId, 'page_view', 'AND source IS NOT NULL AND source NOT IN (?, ?, ?)', [
+        'qr',
+        'card',
+        'direct',
+      ]),
+      countDistinctSessions(db, eventId, 'start_clicked'),
+      countDistinctSessions(db, eventId, 'card_generated'),
+      countDistinctSessions(db, eventId, 'image_saved'),
+      countDistinctSessions(db, eventId, 'share_clicked'),
+    ]);
 
   const moodRows = await db
     .prepare(
@@ -172,6 +195,12 @@ export async function getDashboardStats(db: D1Database, eventId: string, isDemo:
     shared: totalShared,
     completionRate: totalStarts ? (totalGenerated / totalStarts) * 100 : 0,
     shareRate: totalGenerated ? (totalShared / totalGenerated) * 100 : 0,
+    sourceBreakdown: {
+      qr: seed.sources.qr + qrViews,
+      card: seed.sources.card + cardViews,
+      direct: seed.sources.direct + directViews,
+      other: seed.sources.other + otherViews,
+    },
     moods: topEntries(moods),
     moments: topEntries(moments),
     words: extractWords(comments),

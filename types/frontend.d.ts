@@ -37,6 +37,13 @@ interface AfterPostDashboardStats {
   shared: number;
   completionRate: number;
   shareRate: number;
+  /** page_view のsource別ユニークセッション数(src/lib/analytics.ts SourceBreakdown。directはsource未記録分を含む) */
+  sourceBreakdown: {
+    qr: number;
+    card: number;
+    direct: number;
+    other: number;
+  };
   moods: [string, number][];
   moments: [string, number][];
   words: [string, number][];
