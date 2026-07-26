@@ -42,11 +42,23 @@ body { margin:0; background:var(--paper); color:var(--ink); font-family:"Noto Sa
 .rate-ring span { color:#817a82; font-size:9px; }
 .rank-row { display:grid; grid-template-columns:24px 95px 1fr 28px; gap:10px; align-items:center; margin:15px 0; font-size:10px; }
 .rank-row>b { color:#aaa3aa; font-size:8px; }.rank-row>div { height:6px; background:#e1dcdf; }.rank-row i { display:block; height:100%; background:var(--purple); }.rank-row em { font-style:normal; text-align:right; }
+.source-grid { grid-template-columns:1fr; }
+.source-panel { min-height:0; }
+.source-row { display:grid; grid-template-columns:110px 1fr 45px; align-items:center; gap:13px; margin:16px 0; font-size:10px; }
+.source-row>div { height:16px; background:#e4dfdf; }
+.source-row i { display:block; height:100%; background:linear-gradient(90deg,var(--gold),#e0b76e); animation:grow .7s ease var(--delay) both; transform-origin:left; }
+.source-row b { text-align:right; }
+.source-note { color:#8b858e; font-size:9px; margin:20px 0 0; }
 .lower-grid { grid-template-columns:1fr 1.45fr; }
 .word-cloud { display:flex; gap:9px; flex-wrap:wrap; align-content:flex-start; }
 .word-cloud span { border:1px solid var(--line); padding:7px 10px; background:#f9f6f1; }
 .comments-panel blockquote { display:grid; grid-template-columns:28px 1fr; gap:12px; margin:0; padding:13px 0; border-bottom:1px solid var(--line); }
 .comments-panel blockquote span { color:var(--orange); font-size:9px; }.comments-panel blockquote p { font-size:11px; line-height:1.8; margin:0; }
+.comment-share-button { margin-top:9px; border:1px solid var(--line); background:#f9f6f1; color:var(--ink); font-family:inherit; font-size:9px; letter-spacing:.06em; padding:6px 11px; cursor:pointer; }
+.comment-share-button:hover { border-color:var(--ink); }
+.comment-share-button:disabled { opacity:.55; cursor:default; }
+.comment-share-note { color:#655f67; font-size:10px; margin:14px 0 0; }
+.comment-share-note.hidden { display:none; }
 .qr-section { display:grid; grid-template-columns:1fr 430px; gap:80px; align-items:center; margin-top:70px; padding:65px; background:#17141f; color:white; }
 .qr-copy h2 { font-size:32px; margin:8px 0 15px; }.qr-copy>p:not(:first-child) { color:#a9a2ad; font-size:11px; line-height:1.9; }.qr-copy button { margin-top:20px; border:1px solid #6b6470; background:transparent; color:white; padding:13px 18px; cursor:pointer; }
 .qr-poster { aspect-ratio:3/4; padding:28px; background:linear-gradient(145deg,#392351,#7d496f 55%,#ed8255); display:flex; flex-direction:column; align-items:center; text-align:center; box-shadow:0 25px 60px rgba(0,0,0,.25); }

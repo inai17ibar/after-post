@@ -43,6 +43,14 @@
         </article>
       </section>
 
+      <section class="dashboard-grid source-grid">
+        <article class="panel source-panel">
+          <div class="panel-title"><span>TRAFFIC SOURCE</span><h2>流入元内訳</h2></div>
+          <div class="source-breakdown" id="sourceBreakdown"></div>
+          <p class="source-note">ユニークセッション数ベースの内訳です。「シェアカード」はカードに刷り込まれたURL経由の再訪(バイラル流入)を示します。</p>
+        </article>
+      </section>
+
       <section class="dashboard-grid">
         <article class="panel"><div class="panel-title"><span>MOOD</span><h2>人気の気分タグ</h2></div><div class="ranking" id="moodRanking"></div></article>
         <article class="panel"><div class="panel-title"><span>FAVORITE MOMENT</span><h2>いちばん残ったもの</h2></div><div class="ranking" id="momentRanking"></div></article>
@@ -50,7 +58,7 @@
 
       <section class="dashboard-grid lower-grid">
         <article class="panel"><div class="panel-title"><span>FAN WORDS</span><h2>よく出た言葉</h2></div><div class="word-cloud" id="wordCloud"></div></article>
-        <article class="panel comments-panel"><div class="panel-title"><span>VOICES</span><h2>代表コメント</h2></div><div id="comments"></div></article>
+        <article class="panel comments-panel"><div class="panel-title"><span>VOICES</span><h2>代表コメント</h2></div><div id="comments"></div><p id="commentShareNote" class="comment-share-note hidden"></p></article>
       </section>
 
       <section class="qr-section">
